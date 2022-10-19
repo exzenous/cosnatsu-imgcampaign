@@ -88,7 +88,7 @@
     
     <div class="col text-end">
       <p>Open Sourced - Nathachai B.</p>
-      <h2><a href="https://www.github.com/exzenous"><i class="fa fa-github"></i></a></h2>
+      <h2><a href="https://github.com/exzenous/cosnatsu-imgcampaign"><i class="fa fa-github"></i></a></h2>
     </div>
   </div>
 
