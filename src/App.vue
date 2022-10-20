@@ -6,10 +6,14 @@
     data() {
       return {
         imageCanvas: null,
+        overlayImg: null,
         yourName: "",
         yourChar: "",
         currentImage: "",
-        cosnatsuImages: [], //['',''],
+        cosnatsuImages: [
+          'https://cdn.cosnatsu.com/wp-content/uploads/2022/10/18011359/CosAndPlay-Template-1.png',
+          'https://cdn.cosnatsu.com/wp-content/uploads/2022/10/18185836/CosAndPlay-Halloween-1.png'
+        ], //['',''],
         objectiveNames: [
           "มาคอส",
           "มาถ่าย",
@@ -23,19 +27,36 @@
       }
     },
     methods: {
-      getLog(a) {
-        console.log(a)
-      },
       textChange(){
         console.log(this.yourName, this.yourChar)
+      },
+      changeBaseImage(target) {
+        fabric.Image.fromURL(target, (img) =>{
+          this.imageCanvas.setBackgroundImage(img, this.imageCanvas.renderAll.bind(this.imageCanvas), {scaleX: 0.5, scaleY: 0.5})
+        })
+      },
+      loadBaseImage() {
+        this.imageCanvas = this.$refs.imgCanvas
+        this.imageCanvas = new fabric.StaticCanvas('imgCanvas', {})
+
+        this.imageCanvas
+        .setDimensions({width: 960, height: 540}, {backstoreOnly: true})
+        .setDimensions({width: '100%', height: 'inherit'}, {cssOnly: true})
+        
+        this.changeBaseImage(this.cosnatsuImages[0])
+
+        var circle = new fabric.Circle({
+          radius: 20, fill: 'green', left: 100, top: 100
+        });
+        var triangle = new fabric.Triangle({
+          width: 20, height: 30, fill: 'blue', left: 50, top: 50
+        });
+
+        this.imageCanvas.add(circle, triangle)
       }
     },
     mounted() {
-      this.imageCanvas = this.$refs.imgCanvas.getContext('2d')
-      this.imageCanvas.clearRect(0, 0, 400, 200)
-      this.imageCanvas.beginPath()
-      this.imageCanvas.rect(20, 20, 1500, 1000)
-      this.imageCanvas.stroke()
+      this.loadBaseImage()
     }
   }
 </script>
@@ -45,17 +66,16 @@
   <!-- App -->
   <div id="appmodule" class="d-flex flex-row py-4 mt-5">
 
-    <div class="d-flex flex-wrap align-items-center">
-      <canvas id="imgCanvas" ref="imgCanvas" class="shadow rounded" style="width: 100%;" width="1920" height="1080"></canvas>
-      <!-- <img class="shadow rounded" style="width:100%" src="./assets/CosAndPlay-Template.png"> -->
+    <div id="canvasWrapper" class="d-flex flex-wrap align-items-center">
+      <canvas id="imgCanvas" ref="imgCanvas" class="shadow rounded" style="width: 100% !important;"></canvas>
     </div>
     <div class="container p-4 pt-5">
       
       <div class="row">
         <div class="btn-group">
-          <input @click="getLog('ssss')" type="radio" class="btn-check" name="mode" id="btnradio1" checked>
+          <input @click="changeBaseImage(this.cosnatsuImages[0])" type="radio" class="btn-check" name="mode" id="btnradio1" checked>
           <label class="btn btn-outline-info" for="btnradio1">CosNatsu</label>
-          <input @click="getLog('aaaa')" type="radio" class="btn-check" name="mode" id="btnradio2">
+          <input @click="changeBaseImage(this.cosnatsuImages[1])" type="radio" class="btn-check" name="mode" id="btnradio2">
           <label class="btn btn-outline-info" for="btnradio2">Halloween</label>
         </div>
       </div>
