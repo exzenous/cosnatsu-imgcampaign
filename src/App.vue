@@ -1,9 +1,15 @@
 <script>
+
+  import { fabric } from 'fabric'
+
   export default {
     data() {
       return {
+        imageCanvas: null,
+        yourName: "",
+        yourChar: "",
         currentImage: "",
-        cosnatsuImages: [],
+        cosnatsuImages: [], //['',''],
         objectiveNames: [
           "มาคอส",
           "มาถ่าย",
@@ -20,12 +26,16 @@
       getLog(a) {
         console.log(a)
       },
+      textChange(){
+        console.log(this.yourName, this.yourChar)
+      }
     },
     mounted() {
-
-    },
-    computed: {
-
+      this.imageCanvas = this.$refs.imgCanvas.getContext('2d')
+      this.imageCanvas.clearRect(0, 0, 400, 200)
+      this.imageCanvas.beginPath()
+      this.imageCanvas.rect(20, 20, 1500, 1000)
+      this.imageCanvas.stroke()
     }
   }
 </script>
@@ -36,7 +46,8 @@
   <div id="appmodule" class="d-flex flex-row py-4 mt-5">
 
     <div class="d-flex flex-wrap align-items-center">
-      <img class="shadow rounded" style="width:100%" src="./assets/CosAndPlay-Template.png">
+      <canvas id="imgCanvas" ref="imgCanvas" class="shadow rounded" style="width: 100%;" width="1920" height="1080"></canvas>
+      <!-- <img class="shadow rounded" style="width:100%" src="./assets/CosAndPlay-Template.png"> -->
     </div>
     <div class="container p-4 pt-5">
       
@@ -51,14 +62,15 @@
       
       <div class="d-flex flex-column justify-content-center flex-wrap py-4">
         <div class="form-floating mb-4">
-          <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com"/>
-          <label for="floatingInput">Your Name</label>
+          <input type="text" class="form-control" id="nameTextField" placeholder=" " @input="textChange()" v-model="yourName"/>
+          <label for="nameTextField">Your Name</label>
         </div>
         <div class="form-floating mb-4">
-          <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com"/>
-          <label for="floatingInput">Your Character</label>
+          <input type="text" class="form-control" id="characterTextField" placeholder=" " @input="textChange()" v-model="yourChar" />
+          <label for="characterTextField">Your Character</label>
         </div>
-        <div class="">
+
+        <div>
           <label for="floatingInput" class="mb-2">Your Picture</label>
           <input type="file" class="form-control " id="floatingInput" />
         </div>
