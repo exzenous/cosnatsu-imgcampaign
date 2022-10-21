@@ -15,20 +15,24 @@
           'https://cdn.cosnatsu.com/wp-content/uploads/2022/10/18185836/CosAndPlay-Halloween-1.png'
         ], //['',''],
         objectiveNames: [
-          "มาคอส",
-          "มาถ่าย",
-          "มาขาย",
-          "มากิน",
-          "มาเล่น",
-          "มาเที่ยว",
-          "มาหาเธอ",
-          "มาทำไม?"
+          {name:"มาคอส", isSet: false},
+          {name:"มาถ่าย", isSet: false},
+          {name:"มาขาย", isSet: false},
+          {name:"มากิน", isSet: false},
+          {name:"มาเล่น", isSet: false},
+          {name:"มาเที่ยว", isSet: false},
+          {name:"มาหาเธอ", isSet: false},
+          {name:"มาทำไม?", isSet: false}
         ]
       }
     },
     methods: {
       textChange(){
         console.log(this.yourName, this.yourChar)
+      },
+      setTick(item) {
+        item.isSet = !item.isSet
+        console.log(this.objectiveNames)
       },
       changeBaseImage(target) {
         fabric.Image.fromURL(target, (img) =>{
@@ -98,7 +102,7 @@
 
       <div class="d-flex justify-content-center flex-wrap">
         <div v-for="i in objectiveNames" class="p-1">
-          <input type="checkbox" class="btn-check" :id="i"/><label class="btn btn-outline-info" :for="i">{{ i }}</label>
+          <input type="checkbox" class="btn-check" :id="i.name" @click="setTick(i)"/><label class="btn btn-outline-info" :for="i.name">{{ i.name }}</label>
         </div>
       </div>
 
