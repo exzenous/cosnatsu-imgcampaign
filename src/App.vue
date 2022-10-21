@@ -15,14 +15,14 @@
           'https://cdn.cosnatsu.com/wp-content/uploads/2022/10/18185836/CosAndPlay-Halloween-1.png'
         ], //['',''],
         objectiveNames: [
-          {name:"มาคอส", isSet: false},
-          {name:"มาถ่าย", isSet: false},
-          {name:"มาขาย", isSet: false},
-          {name:"มากิน", isSet: false},
-          {name:"มาเล่น", isSet: false},
-          {name:"มาเที่ยว", isSet: false},
-          {name:"มาหาเธอ", isSet: false},
-          {name:"มาทำไม?", isSet: false}
+          {name:"มาคอส", isSet: false, posX: 58, posY: 448},
+          {name:"มาถ่าย", isSet: false, posX: 138, posY: 448},
+          {name:"มาขาย", isSet: false,  posX: 218, posY: 448},
+          {name:"มากิน", isSet: false,  posX: 308, posY: 448},
+          {name:"มาเล่น", isSet: false,  posX: 58, posY: 474},
+          {name:"มาเที่ยว", isSet: false,  posX: 138, posY: 474},
+          {name:"มาหาเธอ", isSet: false,  posX: 218, posY: 474},
+          {name:"มาทำไม?", isSet: false,  posX: 308, posY: 474}
         ]
       }
     },
@@ -32,7 +32,20 @@
       },
       setTick(item) {
         item.isSet = !item.isSet
-        console.log(this.objectiveNames)
+        if (item.isSet) {
+          this.addTick(item.posX, item.posY)
+        }else{
+          console.log(this.imageCanvas.getObjects())
+          this.imageCanvas.clear()
+        }
+      },
+      addTick(posLeft, posTop) {
+
+        var circle = new fabric.Circle({
+          radius: 10, fill: 'green', left: posLeft, top: posTop
+        });
+
+        this.imageCanvas.add(circle)
       },
       changeBaseImage(target) {
         fabric.Image.fromURL(target, (img) =>{
@@ -49,24 +62,6 @@
         
         this.changeBaseImage(this.cosnatsuImages[0])
 
-        var circle = new fabric.Circle({
-          radius: 20, fill: 'green', left: 100, top: 100
-        });
-        var triangle = new fabric.Triangle({
-          width: 20, height: 30, fill: 'blue', left: 50, top: 50
-        });
-
-        this.imageCanvas.add(circle, triangle)
-      },
-      addTick(posLeft, posTop) {
-
-        // this.imageCanvas = this.$refs.imgCanvas
-
-        var circle = new fabric.Circle({
-          radius: 20, fill: 'green', left: posLeft, top: posTop
-        });
-
-        this.imageCanvas.add(circle)
       },
       previewFile(event) {
         console.log(event.target.files[0])
@@ -74,10 +69,21 @@
         //   this.imageCanvas.add(new fabric.Image(userImg))
         // })
         
+      },
+      rerenderCanvas() {
+        
       }
     },
     mounted() {
       this.loadBaseImage()
+      // this.addTick(58,448)
+      // this.addTick(138,448)
+      // this.addTick(218,448)
+      // this.addTick(308,448)
+      // this.addTick(58,474)
+      // this.addTick(138,474)
+      // this.addTick(218,474)
+      // this.addTick(308,474)
     }
   }
 </script>
@@ -124,7 +130,7 @@
       </div>
 
       <div class="row py-4">
-        <button @click="addTick(500,200)" class="btn btn-info">Save</button>
+        <button @click="addTick(0,500)" class="btn btn-info">Save</button>
       </div>
 
     </div>
