@@ -9,7 +9,7 @@
         overlayImg: null,
         yourName: "",
         yourChar: "",
-        currentImage: "",
+        currentImage: null,
         cosnatsuImages: [
           'https://cdn.cosnatsu.com/wp-content/uploads/2022/10/18011359/CosAndPlay-Template-1.png',
           'https://cdn.cosnatsu.com/wp-content/uploads/2022/10/18185836/CosAndPlay-Halloween-1.png'
@@ -57,6 +57,23 @@
         });
 
         this.imageCanvas.add(circle, triangle)
+      },
+      addTick(posLeft, posTop) {
+
+        // this.imageCanvas = this.$refs.imgCanvas
+
+        var circle = new fabric.Circle({
+          radius: 20, fill: 'green', left: posLeft, top: posTop
+        });
+
+        this.imageCanvas.add(circle)
+      },
+      previewFile(event) {
+        console.log(event.target.files[0])
+        // fabric.util.loadImage(event.target.files[0], (userImg) => {
+        //   this.imageCanvas.add(new fabric.Image(userImg))
+        // })
+        
       }
     },
     mounted() {
@@ -107,7 +124,7 @@
       </div>
 
       <div class="row py-4">
-        <button class="btn btn-info">Save</button>
+        <button @click="addTick(500,200)" class="btn btn-info">Save</button>
       </div>
 
     </div>
