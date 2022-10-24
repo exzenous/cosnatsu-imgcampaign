@@ -15,14 +15,14 @@
           'https://cdn.cosnatsu.com/wp-content/uploads/2022/10/18185836/CosAndPlay-Halloween-1.png'
         ], //['',''],
         objectiveNames: [
-          {name:"มาคอส", isSet: false, posX: 58, posY: 448},
-          {name:"มาถ่าย", isSet: false, posX: 138, posY: 448},
-          {name:"มาขาย", isSet: false,  posX: 218, posY: 448},
-          {name:"มากิน", isSet: false,  posX: 308, posY: 448},
-          {name:"มาเล่น", isSet: false,  posX: 58, posY: 474},
-          {name:"มาเที่ยว", isSet: false,  posX: 138, posY: 474},
-          {name:"มาหาเธอ", isSet: false,  posX: 218, posY: 474},
-          {name:"มาทำไม?", isSet: false,  posX: 308, posY: 474}
+          {name:"มาคอส", isSet: false, posX: 58, posY: 448, tick: null},
+          {name:"มาถ่าย", isSet: false, posX: 138, posY: 448, tick: null},
+          {name:"มาขาย", isSet: false,  posX: 218, posY: 448, tick: null},
+          {name:"มากิน", isSet: false,  posX: 308, posY: 448, tick: null},
+          {name:"มาเล่น", isSet: false,  posX: 58, posY: 474, tick: null},
+          {name:"มาเที่ยว", isSet: false,  posX: 138, posY: 474, tick: null},
+          {name:"มาหาเธอ", isSet: false,  posX: 218, posY: 474, tick: null},
+          {name:"มาทำไม?", isSet: false,  posX: 308, posY: 474, tick: null}
         ]
       }
     },
@@ -32,19 +32,22 @@
       },
       setTick(item) {
         item.isSet = !item.isSet
+
         if (item.isSet) {
-          this.addTick(item.posX, item.posY)
+          this.addTick(item)
         }else{
-          console.log(this.imageCanvas.getObjects())
-          this.imageCanvas.clear()
+          this.imageCanvas.fxRemove(item.tick)
+          item.tick = null
         }
       },
-      addTick(posLeft, posTop) {
-
+      addTick(infoItem) {
+        console.log(infoItem)
+        
         var circle = new fabric.Circle({
-          radius: 10, fill: 'green', left: posLeft, top: posTop
+          radius: 10, fill: 'green', left: infoItem.posX, top: infoItem.posY
         });
 
+        infoItem.tick = circle
         this.imageCanvas.add(circle)
       },
       changeBaseImage(target) {
@@ -71,21 +74,20 @@
         
       },
       rerenderCanvas() {
-        
+        this.imageCanvas.clear()
+        // set canvas background to the current one
+        this.changeBaseImage(this.cosnatsuImages[0])
+        this.objectiveNames.forEach(element => {
+          if (element.isSet) {
+            this.addTick(element.posX, element.posY)
+          }
+        });
       }
     },
     mounted() {
       this.loadBaseImage()
-      // this.addTick(58,448)
-      // this.addTick(138,448)
-      // this.addTick(218,448)
-      // this.addTick(308,448)
-      // this.addTick(58,474)
-      // this.addTick(138,474)
-      // this.addTick(218,474)
-      // this.addTick(308,474)
     }
-  }
+    }
 </script>
 
 <template>
