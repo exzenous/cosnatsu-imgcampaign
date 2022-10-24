@@ -41,8 +41,6 @@
         }
       },
       addTick(infoItem) {
-        console.log(infoItem)
-        
         var circle = new fabric.Circle({
           radius: 10, fill: 'green', left: infoItem.posX, top: infoItem.posY
         });
@@ -72,16 +70,6 @@
         //   this.imageCanvas.add(new fabric.Image(userImg))
         // })
         
-      },
-      rerenderCanvas() {
-        this.imageCanvas.clear()
-        // set canvas background to the current one
-        this.changeBaseImage(this.cosnatsuImages[0])
-        this.objectiveNames.forEach(element => {
-          if (element.isSet) {
-            this.addTick(element.posX, element.posY)
-          }
-        });
       }
     },
     mounted() {
@@ -132,7 +120,7 @@
       </div>
 
       <div class="row py-4">
-        <button @click="addTick(0,500)" class="btn btn-info">Save</button>
+        <button @click="" class="btn btn-info">Save</button>
       </div>
 
     </div>
