@@ -11,20 +11,20 @@
         yourNameObj: null,
         yourChar: "",
         yourCharObj: null,
-        currentImage: "",
+        currentImage: null,
         cosnatsuImages: [
           'https://cdn.cosnatsu.com/wp-content/uploads/2022/10/18011359/CosAndPlay-Template-1.png',
           'https://cdn.cosnatsu.com/wp-content/uploads/2022/10/18185836/CosAndPlay-Halloween-1.png'
-        ], //['',''],
+        ],
         objectiveNames: [
-          "มาคอส",
-          "มาถ่าย",
-          "มาขาย",
-          "มากิน",
-          "มาเล่น",
-          "มาเที่ยว",
-          "มาหาเธอ",
-          "มาทำไม?"
+          {name:"มาคอส", isSet: false, posX: 58, posY: 448, tick: null},
+          {name:"มาถ่าย", isSet: false, posX: 138, posY: 448, tick: null},
+          {name:"มาขาย", isSet: false,  posX: 218, posY: 448, tick: null},
+          {name:"มากิน", isSet: false,  posX: 308, posY: 448, tick: null},
+          {name:"มาเล่น", isSet: false,  posX: 58, posY: 474, tick: null},
+          {name:"มาเที่ยว", isSet: false,  posX: 138, posY: 474, tick: null},
+          {name:"มาหาเธอ", isSet: false,  posX: 218, posY: 474, tick: null},
+          {name:"มาทำไม?", isSet: false,  posX: 308, posY: 474, tick: null}
         ]
       }
     },
@@ -51,6 +51,24 @@
         
         this.imageCanvas.renderAll()
       },
+      setTick(item) {
+        item.isSet = !item.isSet
+
+        if (item.isSet) {
+          this.addTick(item)
+        }else{
+          this.imageCanvas.fxRemove(item.tick)
+          item.tick = null
+        }
+      },
+      addTick(infoItem) {
+        var circle = new fabric.Circle({
+          radius: 10, fill: 'green', left: infoItem.posX, top: infoItem.posY
+        });
+
+        infoItem.tick = circle
+        this.imageCanvas.add(circle)
+      },
       changeBaseImage(target) {
         fabric.Image.fromURL(target, (img) =>{
           this.imageCanvas.setBackgroundImage(img, this.imageCanvas.renderAll.bind(this.imageCanvas), {scaleX: 0.5, scaleY: 0.5})
@@ -65,14 +83,12 @@
         .setDimensions({width: '100%', height: 'inherit'}, {cssOnly: true})
         
         this.changeBaseImage(this.cosnatsuImages[0])
-
-        var circle = new fabric.Circle({
-          radius: 20, fill: 'green', left: 100, top: 100
-        });
-        var triangle = new fabric.Triangle({
-          width: 20, height: 30, fill: 'blue', left: 50, top: 50
-        });
-
+       },
+       previewFile(event) {
+        console.log(event.target.files[0])
+        // fabric.util.loadImage(event.target.files[0], (userImg) => {
+        //   this.imageCanvas.add(new fabric.Image(userImg))
+        // })
       }
     },
     mounted() {
@@ -84,7 +100,7 @@
       this.imageCanvas.add(this.yourCharObj)
 
     }
-  }
+    }
 </script>
 
 <template>
@@ -124,12 +140,12 @@
 
       <div class="d-flex justify-content-center flex-wrap">
         <div v-for="i in objectiveNames" class="p-1">
-          <input type="checkbox" class="btn-check" :id="i"/><label class="btn btn-outline-info" :for="i">{{ i }}</label>
+          <input type="checkbox" class="btn-check" :id="i.name" @click="setTick(i)"/><label class="btn btn-outline-info" :for="i.name">{{ i.name }}</label>
         </div>
       </div>
 
       <div class="row py-4">
-        <button class="btn btn-info">Save</button>
+        <button @click="" class="btn btn-info">Save</button>
       </div>
 
     </div>
