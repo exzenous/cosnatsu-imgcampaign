@@ -8,14 +8,15 @@ on:
     branches: [ "dev" ]
   pull_request:
     branches: [ "dev" ]
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-
-    - uses: actions/checkout@v3
-    
+    - name: Checkout
+      uses: actions/checkout@v3
     - name: Use Node.js 16.x
       uses: actions/setup-node@v3
       with:
@@ -23,7 +24,6 @@ jobs:
         cache: 'npm'
       - run: npm ci
       - run: npm run build
-
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
