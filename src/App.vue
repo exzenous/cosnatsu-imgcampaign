@@ -17,12 +17,12 @@
         objectiveNames: [
           {name:"มาคอส", isSet: false, posX: 58, posY: 448, tick: null},
           {name:"มาถ่าย", isSet: false, posX: 138, posY: 448, tick: null},
-          {name:"มาขาย", isSet: false,  posX: 218, posY: 448, tick: null},
+          {name:"มาขาย", isSet: false,  posX: 222, posY: 448, tick: null},
           {name:"มากิน", isSet: false,  posX: 308, posY: 448, tick: null},
-          {name:"มาเล่น", isSet: false,  posX: 58, posY: 474, tick: null},
-          {name:"มาเที่ยว", isSet: false,  posX: 138, posY: 474, tick: null},
-          {name:"มาหาเธอ", isSet: false,  posX: 218, posY: 474, tick: null},
-          {name:"มาทำไม?", isSet: false,  posX: 308, posY: 474, tick: null}
+          {name:"มาเล่น", isSet: false,  posX: 58, posY: 476, tick: null},
+          {name:"มาเที่ยว", isSet: false,  posX: 138, posY: 476, tick: null},
+          {name:"มาหาเธอ", isSet: false,  posX: 222, posY: 476, tick: null},
+          {name:"มาทำไม?", isSet: false,  posX: 308, posY: 476, tick: null}
         ]
       }
     },
@@ -42,7 +42,7 @@
       },
       addTick(infoItem) {
         var circle = new fabric.Circle({
-          radius: 10, fill: 'green', left: infoItem.posX, top: infoItem.posY
+          radius: 8, fill: 'green', left: infoItem.posX, top: infoItem.posY
         });
 
         infoItem.tick = circle
