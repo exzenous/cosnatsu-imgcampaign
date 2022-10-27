@@ -8,12 +8,14 @@
         imageCanvas: null,
         overlayImg: null,
         yourName: "",
+        yourNameObj: null,
         yourChar: "",
+        yourCharObj: null,
         currentImage: null,
         cosnatsuImages: [
           'https://cdn.cosnatsu.com/wp-content/uploads/2022/10/18011359/CosAndPlay-Template-1.png',
           'https://cdn.cosnatsu.com/wp-content/uploads/2022/10/18185836/CosAndPlay-Halloween-1.png'
-        ], //['',''],
+        ],
         objectiveNames: [
           {name:"มาคอส", isSet: false, posX: 58, posY: 448, tick: null},
           {name:"มาถ่าย", isSet: false, posX: 138, posY: 448, tick: null},
@@ -27,8 +29,27 @@
       }
     },
     methods: {
-      textChange(){
-        console.log(this.yourName, this.yourChar)
+      textChange(event){
+        const source = event.target || event.srcElement
+
+        if (source.id == "nameTextField") {
+          if (this.yourName.length > 16) {
+            this.yourNameObj.set({fontSize: 24, top: 300})
+          }else {
+            this.yourNameObj.set({fontSize: 33, top: 294})
+          }
+          this.yourNameObj.text = this.yourName
+        }
+        else {
+          if (this.yourChar.length > 16) {
+            this.yourCharObj.set({fontSize: 24, top: 370})
+          }else {
+            this.yourCharObj.set({fontSize: 33, top: 362})
+          }
+          this.yourCharObj.text = this.yourChar
+        }
+        
+        this.imageCanvas.renderAll()
       },
       setTick(item) {
         item.isSet = !item.isSet
@@ -62,18 +83,22 @@
         .setDimensions({width: '100%', height: 'inherit'}, {cssOnly: true})
         
         this.changeBaseImage(this.cosnatsuImages[0])
-
-      },
-      previewFile(event) {
+       },
+       previewFile(event) {
         console.log(event.target.files[0])
         // fabric.util.loadImage(event.target.files[0], (userImg) => {
         //   this.imageCanvas.add(new fabric.Image(userImg))
         // })
-        
       }
     },
     mounted() {
       this.loadBaseImage()
+
+      this.yourNameObj = new fabric.Text('', { left: 50, top: 294, fontSize: 33 , fontFamily: 'Sriracha, cursive' });
+      this.imageCanvas.add(this.yourNameObj);
+      this.yourCharObj = new fabric.Text('', { left: 50, top: 362, fontSize: 33 , fontFamily: 'Sriracha, cursive' });
+      this.imageCanvas.add(this.yourCharObj)
+
     }
     }
 </script>
@@ -99,11 +124,11 @@
       
       <div class="d-flex flex-column justify-content-center flex-wrap py-4">
         <div class="form-floating mb-4">
-          <input type="text" class="form-control" id="nameTextField" placeholder=" " @input="textChange()" v-model="yourName"/>
+          <input type="text" class="form-control" id="nameTextField" placeholder=" " @input="textChange" v-model="yourName"/>
           <label for="nameTextField">Your Name</label>
         </div>
         <div class="form-floating mb-4">
-          <input type="text" class="form-control" id="characterTextField" placeholder=" " @input="textChange()" v-model="yourChar" />
+          <input type="text" class="form-control" id="characterTextField" placeholder=" " @input="textChange" v-model="yourChar" />
           <label for="characterTextField">Your Character</label>
         </div>
 
