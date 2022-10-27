@@ -11,7 +11,6 @@
         yourNameObj: null,
         yourChar: "",
         yourCharObj: null,
-        currentImage: null,
         cosnatsuImages: [
           'https://cdn.cosnatsu.com/wp-content/uploads/2022/10/18011359/CosAndPlay-Template-1.png',
           'https://cdn.cosnatsu.com/wp-content/uploads/2022/10/18185836/CosAndPlay-Halloween-1.png'
