@@ -84,26 +84,51 @@
         this.changeBaseImage(this.cosnatsuImages[0])
        },
        previewFile(event) {
-        console.log(event.target.files[0])
         var reader = new FileReader()
         reader.onload = (f) => {
-          console.log(f.target.result)
+
           fabric.Image.fromURL(f.target.result, (img) => {
-            this.imageCanvas.add(img)
+
+            this.overlayImg = img
+            this.imageCanvas.add(this.overlayImg)
+
+            console.log(img.width/img.height)
+            if (img.width/img.height > 1){
+              // Landscape
+              const rescaleFac = 410/img.width
+              this.overlayImg.set({top: 80, left: 480, scaleX: rescaleFac , scaleY: rescaleFac})
+            }else {
+              // Square, Portrait
+              const rescaleFac = 280/img.height
+              this.overlayImg.set({top: 80, left: 480, scaleX: rescaleFac , scaleY: rescaleFac})
+            }
             this.imageCanvas.renderAll()
-          }, {top: 0, left: 50})
+          })
         }
-        reader.readAsDataURL(event.target.files[0])
+        if (this.overlayImg != null) {
+          this.imageCanvas.remove(this.overlayImg)
+          this.overlayImg = null
+          reader.readAsDataURL(event.target.files[0])
+        }
+        else {
+          reader.readAsDataURL(event.target.files[0])
+        }
       }
     },
     mounted() {
       this.loadBaseImage()
-
+      
       this.yourNameObj = new fabric.Text('', { left: 50, top: 294, fontSize: 33 , fontFamily: 'Sriracha, cursive' });
       this.imageCanvas.add(this.yourNameObj);
       this.yourCharObj = new fabric.Text('', { left: 50, top: 362, fontSize: 33 , fontFamily: 'Sriracha, cursive' });
       this.imageCanvas.add(this.yourCharObj)
-
+      
+      var circle = new fabric.Circle({
+        radius: 5, fill: 'blue'
+      });
+      this.imageCanvas.add(circle)
+      circle.centerH()
+      circle.centerV()
     }
     }
 </script>
