@@ -28,6 +28,9 @@
       }
     },
     methods: {
+      saveImage(e) {
+        console.log(this.imageCanvas.toDataURL())
+      },
       textChange(event){
         const source = event.target || event.srcElement
 
@@ -74,8 +77,7 @@
         })
       },
       loadBaseImage() {
-        this.imageCanvas = this.$refs.imgCanvas
-        this.imageCanvas = new fabric.StaticCanvas('imgCanvas', {})
+        this.imageCanvas = new fabric.StaticCanvas('imgCanvas',{})
 
         this.imageCanvas
         .setDimensions({width: 960, height: 540}, {backstoreOnly: true})
@@ -84,20 +86,46 @@
         this.changeBaseImage(this.cosnatsuImages[0])
        },
        previewFile(event) {
-        console.log(event.target.files[0])
-        // fabric.util.loadImage(event.target.files[0], (userImg) => {
-        //   this.imageCanvas.add(new fabric.Image(userImg))
-        // })
+        var reader = new FileReader()
+        reader.onload = (f) => {
+
+          fabric.Image.fromURL(f.target.result, (img) => {
+
+            this.overlayImg = img
+            this.imageCanvas.add(this.overlayImg)
+
+            if (img.width/img.height > 1){
+              // Landscape
+              const rescaleFac = 410/img.width
+              const centreValueLeft = 485+205-(rescaleFac*img.width/2)
+              this.overlayImg.set({top: 80, left: centreValueLeft, scaleX: rescaleFac , scaleY: rescaleFac})
+            }else {
+              // Square, Portrait
+              const rescaleFac = 280/img.height + 0.04
+              const centreValue = 485+205-(rescaleFac*img.width/2)
+              this.overlayImg.set({top: 80, left: centreValue, scaleX: rescaleFac , scaleY: rescaleFac})
+            }
+            this.imageCanvas.renderAll()
+          })
+        }
+        if (this.overlayImg != null) {
+          this.imageCanvas.remove(this.overlayImg)
+          this.overlayImg = null
+          reader.readAsDataURL(event.target.files[0])
+        }
+        else {
+          reader.readAsDataURL(event.target.files[0])
+        }
       }
     },
     mounted() {
       this.loadBaseImage()
-
+      
       this.yourNameObj = new fabric.Text('', { left: 50, top: 294, fontSize: 33 , fontFamily: 'Sriracha, cursive' });
       this.imageCanvas.add(this.yourNameObj);
       this.yourCharObj = new fabric.Text('', { left: 50, top: 362, fontSize: 33 , fontFamily: 'Sriracha, cursive' });
       this.imageCanvas.add(this.yourCharObj)
-
+      
     }
     }
 </script>
@@ -108,7 +136,7 @@
   <div id="appmodule" class="d-flex flex-row py-4 mt-5">
 
     <div id="canvasWrapper" class="d-flex flex-wrap align-items-center">
-      <canvas id="imgCanvas" ref="imgCanvas" class="shadow rounded" style="width: 100% !important;"></canvas>
+      <canvas id="imgCanvas" class="shadow rounded" style="width: 100% !important;"></canvas>
     </div>
     <div class="container p-4 pt-5">
       
@@ -133,7 +161,7 @@
 
         <div>
           <label for="floatingInput" class="mb-2">Your Picture</label>
-          <input type="file" class="form-control " id="floatingInput" />
+          <input type="file" class="form-control" accept="image/*" id="floatingInput" @input="previewFile" />
         </div>
       </div>
 
@@ -144,7 +172,7 @@
       </div>
 
       <div class="row py-4">
-        <button @click="" class="btn btn-info">Save</button>
+        <a class="btn btn-info" @click="saveImage">Save</a>
       </div>
 
     </div>
