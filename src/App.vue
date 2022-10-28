@@ -85,9 +85,15 @@
        },
        previewFile(event) {
         console.log(event.target.files[0])
-        // fabric.util.loadImage(event.target.files[0], (userImg) => {
-        //   this.imageCanvas.add(new fabric.Image(userImg))
-        // })
+        var reader = new FileReader()
+        reader.onload = (f) => {
+          console.log(f.target.result)
+          fabric.Image.fromURL(f.target.result, (img) => {
+            this.imageCanvas.add(img)
+            this.imageCanvas.renderAll()
+          }, {top: 0, left: 50})
+        }
+        reader.readAsDataURL(event.target.files[0])
       }
     },
     mounted() {
@@ -133,7 +139,7 @@
 
         <div>
           <label for="floatingInput" class="mb-2">Your Picture</label>
-          <input type="file" class="form-control " id="floatingInput" />
+          <input type="file" class="form-control " id="floatingInput" @input="previewFile" />
         </div>
       </div>
 
