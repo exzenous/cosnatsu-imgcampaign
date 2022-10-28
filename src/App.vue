@@ -101,7 +101,7 @@
               this.overlayImg.set({top: 80, left: centreValueLeft, scaleX: rescaleFac , scaleY: rescaleFac})
             }else {
               // Square, Portrait
-              const rescaleFac = 280/img.height + 0.04
+              const rescaleFac = 280/img.height
               const centreValue = 485+205-(rescaleFac*img.width/2)
               this.overlayImg.set({top: 80, left: centreValue, scaleX: rescaleFac , scaleY: rescaleFac})
             }
