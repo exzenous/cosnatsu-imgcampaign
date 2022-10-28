@@ -28,6 +28,9 @@
       }
     },
     methods: {
+      saveImage(e) {
+        console.log(this.imageCanvas.toDataURL())
+      },
       textChange(event){
         const source = event.target || event.srcElement
 
@@ -74,8 +77,7 @@
         })
       },
       loadBaseImage() {
-        this.imageCanvas = this.$refs.imgCanvas
-        this.imageCanvas = new fabric.StaticCanvas('imgCanvas', {})
+        this.imageCanvas = new fabric.StaticCanvas('imgCanvas',{})
 
         this.imageCanvas
         .setDimensions({width: 960, height: 540}, {backstoreOnly: true})
@@ -134,7 +136,7 @@
   <div id="appmodule" class="d-flex flex-row py-4 mt-5">
 
     <div id="canvasWrapper" class="d-flex flex-wrap align-items-center">
-      <canvas id="imgCanvas" ref="imgCanvas" class="shadow rounded" style="width: 100% !important;"></canvas>
+      <canvas id="imgCanvas" class="shadow rounded" style="width: 100% !important;"></canvas>
     </div>
     <div class="container p-4 pt-5">
       
@@ -170,7 +172,7 @@
       </div>
 
       <div class="row py-4">
-        <button @click="" class="btn btn-info">Save</button>
+        <a class="btn btn-info" @click="saveImage">Save</a>
       </div>
 
     </div>
