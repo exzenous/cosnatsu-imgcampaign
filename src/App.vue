@@ -92,15 +92,16 @@
             this.overlayImg = img
             this.imageCanvas.add(this.overlayImg)
 
-            console.log(img.width/img.height)
             if (img.width/img.height > 1){
               // Landscape
               const rescaleFac = 410/img.width
-              this.overlayImg.set({top: 80, left: 480, scaleX: rescaleFac , scaleY: rescaleFac})
+              const centreValueLeft = 485+205-(rescaleFac*img.width/2)
+              this.overlayImg.set({top: 80, left: centreValueLeft, scaleX: rescaleFac , scaleY: rescaleFac})
             }else {
               // Square, Portrait
-              const rescaleFac = 280/img.height
-              this.overlayImg.set({top: 80, left: 480, scaleX: rescaleFac , scaleY: rescaleFac})
+              const rescaleFac = 280/img.height + 0.04
+              const centreValue = 485+205-(rescaleFac*img.width/2)
+              this.overlayImg.set({top: 80, left: centreValue, scaleX: rescaleFac , scaleY: rescaleFac})
             }
             this.imageCanvas.renderAll()
           })
@@ -123,12 +124,6 @@
       this.yourCharObj = new fabric.Text('', { left: 50, top: 362, fontSize: 33 , fontFamily: 'Sriracha, cursive' });
       this.imageCanvas.add(this.yourCharObj)
       
-      var circle = new fabric.Circle({
-        radius: 5, fill: 'blue'
-      });
-      this.imageCanvas.add(circle)
-      circle.centerH()
-      circle.centerV()
     }
     }
 </script>
@@ -164,7 +159,7 @@
 
         <div>
           <label for="floatingInput" class="mb-2">Your Picture</label>
-          <input type="file" class="form-control " id="floatingInput" @input="previewFile" />
+          <input type="file" class="form-control" accept="image/*" id="floatingInput" @input="previewFile" />
         </div>
       </div>
 
