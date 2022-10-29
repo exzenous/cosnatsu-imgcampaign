@@ -1,16 +1,15 @@
-# cosnatsu-imgcampaign
+# CosNatsu #2 Image Generator
 
-This template should help get you started developing with Vue 3 in Vite.
+An Fanmade Image Generator Service - for CosNatsu #2 Event
 
-## Recommended IDE Setup
+![](/img/preview.png)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- Written with JS; Vue.Js
+- CSS: Bootstrap
+    - I preferred Tailwind CSS but this is just for experiment
+- Fabric.JS: Canvas Manipulation Framework
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
+## How to Run
 
 ```sh
 npm install
