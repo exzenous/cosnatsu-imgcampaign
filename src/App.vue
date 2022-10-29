@@ -1,6 +1,8 @@
 <script>
 
   import { fabric } from 'fabric'
+  import img1 from './assets/cosnatsu-t1.png'
+  import img2 from './assets/cosnatsu-t2.png'
 
   export default {
     data() {
@@ -12,8 +14,8 @@
         yourChar: "",
         yourCharObj: null,
         cosnatsuImages: [
-          'https://cdn.cosnatsu.com/wp-content/uploads/2022/10/18011359/CosAndPlay-Template-1.png',
-          'https://cdn.cosnatsu.com/wp-content/uploads/2022/10/18185836/CosAndPlay-Halloween-1.png'
+          img1,
+          img2
         ],
         objectiveNames: [
           {name:"มาคอส", isSet: false, posX: 58, posY: 448, tick: null},
@@ -29,7 +31,12 @@
     },
     methods: {
       saveImage(e) {
-        console.log(this.imageCanvas.toDataURL())
+        const a = document.getElementById('imgCanvas')
+        const link = document.createElement('a');
+        link.download = 'download.png';
+        link.href = a.toDataURL();
+        link.click();
+        link.delete;
       },
       textChange(event){
         const source = event.target || event.srcElement
@@ -50,7 +57,6 @@
           }
           this.yourCharObj.text = this.yourChar
         }
-        
         this.imageCanvas.renderAll()
       },
       setTick(item) {
@@ -77,14 +83,14 @@
         })
       },
       loadBaseImage() {
-        this.imageCanvas = new fabric.StaticCanvas('imgCanvas',{})
+        this.imageCanvas = new fabric.StaticCanvas('imgCanvas')
 
         this.imageCanvas
         .setDimensions({width: 960, height: 540}, {backstoreOnly: true})
         .setDimensions({width: '100%', height: 'inherit'}, {cssOnly: true})
         
         this.changeBaseImage(this.cosnatsuImages[0])
-       },
+      },
        previewFile(event) {
         var reader = new FileReader()
         reader.onload = (f) => {
@@ -101,7 +107,7 @@
               this.overlayImg.set({top: 80, left: centreValueLeft, scaleX: rescaleFac , scaleY: rescaleFac})
             }else {
               // Square, Portrait
-              const rescaleFac = 350/img.height
+              const rescaleFac = 340/img.height
               const centreValue = 485+205-(rescaleFac*img.width/2)
               this.overlayImg.set({top: 80, left: centreValue, scaleX: rescaleFac , scaleY: rescaleFac})
             }
@@ -125,8 +131,8 @@
       this.imageCanvas.add(this.yourNameObj);
       this.yourCharObj = new fabric.Text('', { left: 50, top: 362, fontSize: 33 , fontFamily: 'Sriracha, cursive' });
       this.imageCanvas.add(this.yourCharObj)
-      
-    }
+
+      }
     }
 </script>
 
