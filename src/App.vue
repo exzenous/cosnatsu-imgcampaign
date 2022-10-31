@@ -93,6 +93,7 @@
       },
       loadBaseImage() {
         this.imageCanvas = new fabric.StaticCanvas('imgCanvas')
+        this.imageCanvas.backgroundColor="white"
         this.imageCanvas
         .setDimensions({width: 960, height: 540}, {backstoreOnly: true})
         .setDimensions({width: '100%', height: 'inherit'}, {cssOnly: true})
@@ -152,7 +153,7 @@
       this.yourCharObj = new fabric.Text('', { left: 50, top: 362, fontSize: 33 , fontFamily: 'Sriracha, cursive' });
       this.imageCanvas.add(this.yourCharObj)
       this.refreshIndex()
-      
+      this.changeBaseImage(this.cosnatsuCurrentImage)
 
       }
     }
