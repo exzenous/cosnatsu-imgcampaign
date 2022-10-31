@@ -105,21 +105,25 @@
 
           fabric.Image.fromURL(f.target.result, (img) => {
 
+            //frame y => 11 to 456 = 445px
+            //frame x => 450 to 930 = 480px
+
             this.overlayImg = img
             this.imageCanvas.add(this.overlayImg)
 
             if (img.width/img.height > 1){
               // Landscape
               //const rescaleFac = 410/img.width
-              const rescaleFac = 520/img.width
+              const rescaleFac = 480/img.width
               const centreValueLeft = 485+205-(rescaleFac*img.width/2)
-              this.overlayImg.set({top: 80, left: centreValueLeft, scaleX: rescaleFac , scaleY: rescaleFac})
+              const top = (540 - (img.height*rescaleFac)) / 2 - 36
+              this.overlayImg.set({top: top, left: centreValueLeft, scaleX: rescaleFac , scaleY: rescaleFac})
             }else {
               // Square, Portrait
               //const rescaleFac = 340/img.height
-              const rescaleFac = 340/img.height
-              const centreValue = 485+205-(rescaleFac*img.width/2)
-              this.overlayImg.set({top: 80, left: centreValue, scaleX: rescaleFac , scaleY: rescaleFac})
+              const rescaleFac = 445/img.height
+              const centreValueLeft = 485+205-(rescaleFac*img.width/2)
+              this.overlayImg.set({top: 11, left: centreValueLeft, scaleX: rescaleFac , scaleY: rescaleFac})
             }
             this.refreshIndex()
             //this.imageCanvas.renderAll()
