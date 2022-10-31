@@ -1,8 +1,8 @@
 <script>
 
   import { fabric } from 'fabric'
-  import img1 from './assets/cosnatsu-t1.png'
-  import img2 from './assets/cosnatsu-t2.png'
+  import img1 from './assets/cosnatsu-t1-1.png'
+  import img2 from './assets/cosnatsu-t2-1.png'
 
   export default {
     data() {
@@ -13,10 +13,12 @@
         yourNameObj: null,
         yourChar: "",
         yourCharObj: null,
+        base: null,
         cosnatsuImages: [
           img1,
           img2
         ],
+        cosnatsuCurrentImage: img1,
         objectiveNames: [
           {name:"มาคอส", isSet: false, posX: 58, posY: 448, tick: null},
           {name:"มาถ่าย", isSet: false, posX: 138, posY: 448, tick: null},
@@ -57,6 +59,7 @@
           }
           this.yourCharObj.text = this.yourChar
         }
+        this.refreshIndex()
         this.imageCanvas.renderAll()
       },
       setTick(item) {
@@ -78,18 +81,22 @@
         this.imageCanvas.add(circle)
       },
       changeBaseImage(target) {
-        fabric.Image.fromURL(target, (img) =>{
-          this.imageCanvas.setBackgroundImage(img, this.imageCanvas.renderAll.bind(this.imageCanvas), {scaleX: 0.5, scaleY: 0.5})
+        this.cosnatsuCurrentImage = target
+        fabric.Image.fromURL(this.cosnatsuCurrentImage, (img) =>{
+          img.set({scaleX: 0.5, scaleY: 0.5})
+          this.imageCanvas.remove(this.base)
+          //this.imageCanvas.setBackgroundImage(img, this.imageCanvas.renderAll.bind(this.imageCanvas), {scaleX: 0.5, scaleY: 0.5})
+          this.base = img
+          this.imageCanvas.add(this.base)
+          this.refreshIndex()
         })
       },
       loadBaseImage() {
         this.imageCanvas = new fabric.StaticCanvas('imgCanvas')
-
         this.imageCanvas
         .setDimensions({width: 960, height: 540}, {backstoreOnly: true})
         .setDimensions({width: '100%', height: 'inherit'}, {cssOnly: true})
-        
-        this.changeBaseImage(this.cosnatsuImages[0])
+        this.changeBaseImage(this.cosnatsuCurrentImage)
       },
        previewFile(event) {
         var reader = new FileReader()
@@ -102,26 +109,39 @@
 
             if (img.width/img.height > 1){
               // Landscape
-              const rescaleFac = 410/img.width
+              //const rescaleFac = 410/img.width
+              const rescaleFac = 520/img.width
               const centreValueLeft = 485+205-(rescaleFac*img.width/2)
               this.overlayImg.set({top: 80, left: centreValueLeft, scaleX: rescaleFac , scaleY: rescaleFac})
             }else {
               // Square, Portrait
+              //const rescaleFac = 340/img.height
               const rescaleFac = 340/img.height
               const centreValue = 485+205-(rescaleFac*img.width/2)
               this.overlayImg.set({top: 80, left: centreValue, scaleX: rescaleFac , scaleY: rescaleFac})
             }
-            this.imageCanvas.renderAll()
+            this.refreshIndex()
+            //this.imageCanvas.renderAll()
           })
+          
         }
         if (this.overlayImg != null) {
           this.imageCanvas.remove(this.overlayImg)
+          this.refreshIndex()
+          //this.imageCanvas.remove(this.base)
           this.overlayImg = null
           reader.readAsDataURL(event.target.files[0])
         }
         else {
           reader.readAsDataURL(event.target.files[0])
         }
+      },
+      refreshIndex() {
+        this.imageCanvas.moveTo(this.overlayImg, 0)
+        this.imageCanvas.moveTo(this.base, 1)
+        this.imageCanvas.moveTo(this.yourNameObj, 2)
+        this.imageCanvas.moveTo(this.yourCharObj, 3)
+        //this.imageCanvas.renderAll()
       }
     },
     mounted() {
@@ -131,6 +151,8 @@
       this.imageCanvas.add(this.yourNameObj);
       this.yourCharObj = new fabric.Text('', { left: 50, top: 362, fontSize: 33 , fontFamily: 'Sriracha, cursive' });
       this.imageCanvas.add(this.yourCharObj)
+      this.refreshIndex()
+      
 
       }
     }
