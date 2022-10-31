@@ -148,7 +148,7 @@
         this.imageCanvas.moveTo(this.base, 1)
         this.imageCanvas.moveTo(this.yourNameObj, 2)
         this.imageCanvas.moveTo(this.yourCharObj, 3)
-        //this.imageCanvas.renderAll()
+        this.imageCanvas.renderAll()
       }
     },
     mounted() {
