@@ -128,17 +128,19 @@
         }
         if (this.overlayImg != null) {
           this.imageCanvas.remove(this.overlayImg)
-          this.refreshIndex()
-          //this.imageCanvas.remove(this.base)
+          //this.refreshIndex()
           this.overlayImg = null
           reader.readAsDataURL(event.target.files[0])
         }
         else {
           reader.readAsDataURL(event.target.files[0])
+          //this.refreshIndex()
         }
       },
       refreshIndex() {
-        this.imageCanvas.moveTo(this.overlayImg, 0)
+        if (this.overlayImg != null){
+          this.imageCanvas.moveTo(this.overlayImg, 0)
+        }
         this.imageCanvas.moveTo(this.base, 1)
         this.imageCanvas.moveTo(this.yourNameObj, 2)
         this.imageCanvas.moveTo(this.yourCharObj, 3)
