@@ -2,10 +2,10 @@
 
 A Fanmade Image Generator Service - for CosNatsu #2 Event
 
-Improvement:
-- Image now FILLED in blank frame
-- Indexed layer
-- Frame will not cover by attach image any more
+Improvement
+- Fixed iOS download stuck.
+- Image now fill in blank frame.
+- Re-indexed layers. So, Frame will not cover by attach image any more.
 
 ![](/img/preview.png)
 
