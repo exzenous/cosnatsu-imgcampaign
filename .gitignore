@@ -26,3 +26,4 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+azure-static-web-apps*.yml
