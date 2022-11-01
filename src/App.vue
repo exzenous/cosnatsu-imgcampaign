@@ -32,13 +32,22 @@
       }
     },
     methods: {
+      
       saveImage(e) {
-        const a = document.getElementById('imgCanvas')
+        const canvas = document.getElementById('imgCanvas')
         const link = document.createElement('a');
-        link.download = 'download.png';
-        link.href = a.toDataURL();
-        link.click();
-        link.delete;
+        canvas.toBlob(blob => {
+          let URLObj = window.URL || window.webkitURL;
+          link.download = 'download.png';
+          link.href = URLObj.createObjectURL(blob); //URL.createObjectURL(blob);
+          link.click();
+          URLObj.revokeObjectURL(link.href)
+          link.delete;
+        },'image/png');
+        
+        //link.href = a.toDataURL();
+        //link.click();
+        //link.delete;
       },
       textChange(event){
         const source = event.target || event.srcElement
