@@ -1,11 +1,6 @@
-# CosNatsu #2 Image Generator (improved edition)
+# CosNatsu #2 Image Generator
 
 A Fanmade Image Generator Service - for CosNatsu #2 Event
-
-Improvement:
-- Image now FILLED in blank frame
-- Indexed layer
-- Frame will not cover by attach image any more
 
 ![](/img/preview.png)
 
