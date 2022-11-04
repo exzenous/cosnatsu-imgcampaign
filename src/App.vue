@@ -40,15 +40,11 @@ export default {
       canvas.toBlob(blob => {
         let URLObj = window.URL || window.webkitURL;
         link.download = 'download.png';
-        link.href = URLObj.createObjectURL(blob); //URL.createObjectURL(blob);
+        link.href = URLObj.createObjectURL(blob);
         link.click();
         URLObj.revokeObjectURL(link.href)
         link.delete;
       }, 'image/png');
-
-      //link.href = a.toDataURL();
-      //link.click();
-      //link.delete;
     },
     textChange(event) {
       const source = event.target || event.srcElement
@@ -97,7 +93,6 @@ export default {
         if (this.base != null) {
           this.imageCanvas.remove(this.base)
         }
-        //this.imageCanvas.setBackgroundImage(img, this.imageCanvas.renderAll.bind(this.imageCanvas), {scaleX: 0.5, scaleY: 0.5})
         this.base = img
         this.imageCanvas.add(this.base)
         this.refreshIndex()
@@ -126,12 +121,7 @@ export default {
           quality: 0.7
         }).then(blob => {
           reader.readAsDataURL(blob)
-        }, error => {
-          //handle errors
-        });
-      }
-      else {
-        //reader.readAsDataURL(event.target.files[0]);
+        }, error => {});
       }
       reader.onload = (f) => {
         let result = f.target.result
@@ -147,33 +137,28 @@ export default {
 
             if (img.width / img.height > 1) {
               // Landscape
-              //const rescaleFac = 410/img.width
-              const rescaleFac = 480 / img.width
+              const rescaleFac = 440 / img.width
               const centreValueLeft = 485 + 205 - (rescaleFac * img.width / 2)
               const top = (540 - (img.height * rescaleFac)) / 2 - 36
               this.overlayImg.set({ top: top, left: centreValueLeft, scaleX: rescaleFac, scaleY: rescaleFac })
             } else {
               // Square, Portrait
-              //const rescaleFac = 340/img.height
-              const rescaleFac = 445 / img.height
+              const rescaleFac = 410 / img.height
               const centreValueLeft = 485 + 205 - (rescaleFac * img.width / 2)
-              this.overlayImg.set({ top: 11, left: centreValueLeft, scaleX: rescaleFac, scaleY: rescaleFac })
+              this.overlayImg.set({ top: 25, left: centreValueLeft, scaleX: rescaleFac, scaleY: rescaleFac })
             }
             this.refreshIndex()
-            //this.imageCanvas.renderAll()
           })
         }
 
       }
       if (this.overlayImg != null) {
         this.imageCanvas.remove(this.overlayImg)
-        //this.refreshIndex()
         this.overlayImg = null
         reader.readAsDataURL(event.target.files[0])
       }
       else {
         reader.readAsDataURL(event.target.files[0])
-        //this.refreshIndex()
       }
     },
     refreshIndex() {
