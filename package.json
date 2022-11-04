@@ -10,6 +10,7 @@
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.2",
     "fabric": "^5.2.4",
+    "heic2any": "^0.0.3",
     "vue": "^3.2.38"
   },
   "devDependencies": {

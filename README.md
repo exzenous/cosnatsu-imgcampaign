@@ -1,6 +1,6 @@
 # CosNatsu #2 Image Generator
 
-An Fanmade Image Generator Service - for CosNatsu #2 Event
+A Fanmade Image Generator Service - for CosNatsu #2 Event
 
 ![](/img/preview.png)
 
