@@ -99,7 +99,7 @@ export default {
       })
     },
     loadBaseImage() {
-      this.imageCanvas = new fabric.StaticCanvas('imgCanvas')
+      this.imageCanvas = new fabric.Canvas('imgCanvas')
       this.imageCanvas.backgroundColor = "white"
       this.imageCanvas
         .setDimensions({ width: 960, height: 540 }, { backstoreOnly: true })
@@ -187,24 +187,19 @@ export default {
 
 <template>
 
+  <!-- Header -->
+  <div>Head</div>
+
   <!-- App -->
-  <div id="appmodule" class="d-flex flex-row py-4 mt-5">
+  <div id="appmodule" class="d-flex flex-row">
 
     <div id="canvasWrapper" class="d-flex flex-wrap align-items-center">
       <canvas id="imgCanvas" class="shadow rounded" style="width: 100% !important;"></canvas>
+      <div>
+        <p>Test</p>
+      </div>
     </div>
     <div class="container p-4 pt-5">
-
-      <div class="row">
-        <div class="btn-group">
-          <input @click="changeBaseImage(this.cosnatsuImages[0])" type="radio" class="btn-check" name="mode"
-            id="btnradio1" checked>
-          <label class="btn btn-outline-info" for="btnradio1">CosNatsu</label>
-          <input @click="changeBaseImage(this.cosnatsuImages[1])" type="radio" class="btn-check" name="mode"
-            id="btnradio2">
-          <label class="btn btn-outline-info" for="btnradio2">Halloween</label>
-        </div>
-      </div>
 
       <div class="d-flex flex-column justify-content-center flex-wrap py-4">
         <div class="form-floating mb-4">
@@ -238,6 +233,7 @@ export default {
 
     </div>
 
+    
   </div>
   <!-- App -->
 
