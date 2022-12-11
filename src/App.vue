@@ -90,11 +90,12 @@ export default {
       this.cosnatsuCurrentImage = target
       fabric.Image.fromURL(this.cosnatsuCurrentImage, (img) => {
         img.set({ scaleX: 0.5, scaleY: 0.5 })
-        if (this.base != null) {
-          this.imageCanvas.remove(this.base)
-        }
-        this.base = img
-        this.imageCanvas.add(this.base)
+        // if (this.base != null) {
+        //   this.imageCanvas.remove(this.base)
+        // }
+        // this.base = img
+        // this.imageCanvas.add(this.base)
+        this.imageCanvas.setBackgroundImage(img)
         this.refreshIndex()
       })
     },
@@ -104,7 +105,9 @@ export default {
       this.imageCanvas
         .setDimensions({ width: 960, height: 540 }, { backstoreOnly: true })
         .setDimensions({ width: '100%', height: 'inherit' }, { cssOnly: true })
-      this.changeBaseImage(this.cosnatsuCurrentImage)
+      const canvas = document.getElementById('imgCanvas')
+      canvas.style.position = 'relative'
+        this.changeBaseImage(this.cosnatsuCurrentImage)
     },
     previewFile(event) {
       var reader = new FileReader()
@@ -188,18 +191,29 @@ export default {
 <template>
 
   <!-- Header -->
-  <div>Head</div>
+  <div class="tw- h-24 tw-p-4">
+    <img class="" style="width: 80px;" src="icon.jpg" alt="" >
+  </div>
 
   <!-- App -->
-  <div id="appmodule" class="d-flex flex-row">
+  <div id="appmodule" class="tw-flex tw-flex-wrap tw-mt-6 tw-mb-16">
 
-    <div id="canvasWrapper" class="d-flex flex-wrap align-items-center">
-      <canvas id="imgCanvas" class="shadow rounded" style="width: 100% !important;"></canvas>
-      <div>
-        <p>Test</p>
+    <div id="canvasWrapper" class="tw-flex tw-flex-wrap tw-place-items-center tw-px-4">
+      <canvas id="imgCanvas" class="tw-drop-shadow-xl tw-rounded-md" style="width: 100% !important;"></canvas>
+      <!-- Sticker Pane -->
+      <div class="tw-flex tw-overflow-x-scroll">
+          <img src="./assets/stickers/st1.png" style="width:100px;" alt="">
+          <img src="./assets/stickers/st1.png" style="width:100px;" alt="">
+          <img src="./assets/stickers/st1.png" style="width:100px;" alt="">
+          <img src="./assets/stickers/st1.png" style="width:100px;" alt="">
+          <img src="./assets/stickers/st1.png" style="width:100px;" alt="">
+          <img src="./assets/stickers/st1.png" style="width:100px;" alt="">
+          <img src="./assets/stickers/st1.png" style="width:100px;" alt="">
+          <img src="./assets/stickers/st1.png" style="width:100px;" alt="">
+          <img src="./assets/stickers/st1.png" style="width:100px;" alt="">
       </div>
     </div>
-    <div class="container p-4 pt-5">
+    <div class="tw-container tw-p-8 tw-pt-10">
 
       <div class="d-flex flex-column justify-content-center flex-wrap py-4">
         <div class="form-floating mb-4">
@@ -232,13 +246,12 @@ export default {
       </div>
 
     </div>
-
     
   </div>
   <!-- App -->
 
   <!-- Footer -->
-  <div class="p-4 m-2 bg-light rounded-3 row">
+  <div class="tw-p-4 tw-m-2 tw-bg-slate-50 tw-rounded-lg row">
 
     <div class="col">
       <p>Image/Artwork Resources <br> Courtesy of Cosnatsu Event. or its affiliates.</p>
