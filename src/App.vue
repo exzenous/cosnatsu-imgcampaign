@@ -1,13 +1,28 @@
 <script>
 
 import { fabric } from 'fabric'
-import img1 from './assets/cosnatsu-t1-1.png'
-import img2 from './assets/cosnatsu-t2-1.png'
+import xmasFrame from './assets/Xmas-Photoframe.png'
+// import tickImg from './assets/check.png'
 import heic2any from "heic2any";
 
 export default {
   data() {
+    const preImages = import.meta.glob("./assets/pre-stickers/*")
+    const images = import.meta.glob("./assets/stickers/*")
+    
+    var stickers = []
+    for (const path in images) {
+      stickers.push(this.getImageUrl(path))
+    }
+
+    var preStickers = []
+    for (const path in preImages) {
+      preStickers.push(this.getImageUrl(path))
+    }
+
     return {
+      preStickers: preStickers,
+      stickers: stickers,
       imageCanvas: null,
       overlayImg: null,
       yourName: "",
@@ -15,11 +30,7 @@ export default {
       yourChar: "",
       yourCharObj: null,
       base: null,
-      cosnatsuImages: [
-        img1,
-        img2
-      ],
-      cosnatsuCurrentImage: img1,
+      cosnatsuCurrentImage: xmasFrame,
       objectiveNames: [
         { name: "มาคอส", isSet: false, posX: 58, posY: 448, tick: null },
         { name: "มาถ่าย", isSet: false, posX: 138, posY: 448, tick: null },
@@ -34,6 +45,9 @@ export default {
   },
   methods: {
 
+    getImageUrl(url) {
+      return (new URL(url, import.meta.url).href)
+    },
     saveImage(e) {
       const canvas = document.getElementById('imgCanvas')
       const link = document.createElement('a');
@@ -82,20 +96,31 @@ export default {
       var circle = new fabric.Circle({
         radius: 8, fill: 'green', left: infoItem.posX, top: infoItem.posY
       });
-
       infoItem.tick = circle
       this.imageCanvas.add(circle)
+
+      // fabric.Image.fromURL(tickImg, (tick) => {
+      //   infoItem.tick = tick
+      // }, {
+      //   radius: 8, fill: 'green', left: infoItem.posX, top: infoItem.posY, selectable: false, scaleX: 0.1, scaleY: 0.1
+      // })
+    },
+    addSticker(stickerToAdd) {
+      fabric.Image.fromURL(stickerToAdd, (img) => {
+        this.imageCanvas.add(img)
+        this.refreshIndex()
+      })
     },
     changeBaseImage(target) {
       this.cosnatsuCurrentImage = target
       fabric.Image.fromURL(this.cosnatsuCurrentImage, (img) => {
         img.set({ scaleX: 0.5, scaleY: 0.5 })
-        // if (this.base != null) {
-        //   this.imageCanvas.remove(this.base)
-        // }
-        // this.base = img
-        // this.imageCanvas.add(this.base)
-        this.imageCanvas.setBackgroundImage(img)
+        if (this.base != null) {
+          this.imageCanvas.remove(this.base)
+        }
+        this.base = img
+        this.base.set('selectable', false)
+        this.imageCanvas.add(this.base)
         this.refreshIndex()
       })
     },
@@ -107,7 +132,7 @@ export default {
         .setDimensions({ width: '100%', height: 'inherit' }, { cssOnly: true })
       const canvas = document.getElementById('imgCanvas')
       canvas.style.position = 'relative'
-        this.changeBaseImage(this.cosnatsuCurrentImage)
+      this.changeBaseImage(this.cosnatsuCurrentImage)
     },
     previewFile(event) {
       var reader = new FileReader()
@@ -168,7 +193,6 @@ export default {
       if (this.overlayImg != null) {
         this.imageCanvas.moveTo(this.overlayImg, 0)
       }
-      this.imageCanvas.moveTo(this.base, 1)
       this.imageCanvas.moveTo(this.yourNameObj, 2)
       this.imageCanvas.moveTo(this.yourCharObj, 3)
       this.imageCanvas.renderAll()
@@ -177,12 +201,11 @@ export default {
   mounted() {
     this.loadBaseImage()
 
-    this.yourNameObj = new fabric.Text('', { left: 50, top: 294, fontSize: 33, fontFamily: 'Sriracha, cursive' });
+    this.yourNameObj = new fabric.Text('', { left: 50, top: 294, fontSize: 33, fontFamily: 'Sriracha, cursive', selectable: false });
     this.imageCanvas.add(this.yourNameObj);
-    this.yourCharObj = new fabric.Text('', { left: 50, top: 362, fontSize: 33, fontFamily: 'Sriracha, cursive' });
+    this.yourCharObj = new fabric.Text('', { left: 50, top: 362, fontSize: 33, fontFamily: 'Sriracha, cursive', selectable: false });
     this.imageCanvas.add(this.yourCharObj)
     this.refreshIndex()
-    this.changeBaseImage(this.cosnatsuCurrentImage)
 
   }
 }
@@ -192,7 +215,7 @@ export default {
 
   <!-- Header -->
   <div class="tw- h-24 tw-p-4">
-    <img class="" style="width: 80px;" src="icon.jpg" alt="" >
+    <img class="" style="width: 80px;" src="icon.jpg" >
   </div>
 
   <!-- App -->
@@ -201,16 +224,8 @@ export default {
     <div id="canvasWrapper" class="tw-flex tw-flex-wrap tw-place-items-center tw-px-4">
       <canvas id="imgCanvas" class="tw-drop-shadow-xl tw-rounded-md" style="width: 100% !important;"></canvas>
       <!-- Sticker Pane -->
-      <div class="tw-flex tw-overflow-x-scroll">
-          <img src="./assets/stickers/st1.png" style="width:100px;" alt="">
-          <img src="./assets/stickers/st1.png" style="width:100px;" alt="">
-          <img src="./assets/stickers/st1.png" style="width:100px;" alt="">
-          <img src="./assets/stickers/st1.png" style="width:100px;" alt="">
-          <img src="./assets/stickers/st1.png" style="width:100px;" alt="">
-          <img src="./assets/stickers/st1.png" style="width:100px;" alt="">
-          <img src="./assets/stickers/st1.png" style="width:100px;" alt="">
-          <img src="./assets/stickers/st1.png" style="width:100px;" alt="">
-          <img src="./assets/stickers/st1.png" style="width:100px;" alt="">
+      <div class="tw-flex tw-overflow-x-scroll tw-mt-12 tw-w-[100%]">
+          <img v-for="i,index in preStickers" :src="i" @click="addSticker(stickers[index])" style="width:100px;height: 100px;" alt="">
       </div>
     </div>
     <div class="tw-container tw-p-8 tw-pt-10">
