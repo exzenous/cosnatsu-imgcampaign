@@ -46,6 +46,19 @@ export default {
   },
   methods: {
 
+    pushBackUserImage() {
+      this.delSelected()
+      this.refreshIndex()
+    },
+    delSelected() {
+      const selectedObj = this.imageCanvas.getActiveObject()
+      // TODO:Manage on User delete Input Image
+      // TODO: Update List of Stickers
+      // if (selectedObj.target.cacheKey === this.overlayImg.cacheKey) {
+      //   this.overlayImg = null
+      // }
+      this.imageCanvas.remove(selectedObj)
+    },
     deselectCanvas(){
       this.imageCanvas.discardActiveObject().renderAll();
     },
@@ -118,12 +131,8 @@ export default {
             return item
           }
         })
-
-        console.log(filterd)
         this.imageCanvas.add(filterd[0])
-        this.refreshIndex()
       }, {scaleX: 0.2, scaleY: 0.2})
-      this.refreshIndex()
     },
     changeBaseImage(target) {
       this.cosnatsuCurrentImage = target
@@ -135,7 +144,6 @@ export default {
         this.base = img
         this.base.set('selectable', false)
         this.imageCanvas.add(this.base)
-        this.refreshIndex()
       })
     },
     loadBaseImage() {
@@ -147,6 +155,7 @@ export default {
       const canvas = document.getElementById('imgCanvas')
       canvas.style.position = 'relative'
       this.changeBaseImage(this.cosnatsuCurrentImage)
+
     },
     previewFile(event) {
       var reader = new FileReader()
@@ -189,7 +198,6 @@ export default {
               const centreValueLeft = 485 + 205 - (rescaleFac * img.width / 2)
               this.overlayImg.set({ top: 25, left: centreValueLeft, scaleX: rescaleFac, scaleY: rescaleFac })
             }
-            this.refreshIndex()
           })
         }
 
@@ -205,7 +213,7 @@ export default {
     },
     refreshIndex() {
       if (this.overlayImg != null) {
-        // this.imageCanvas.moveTo(this.overlayImg, 0)
+        this.imageCanvas.moveTo(this.overlayImg, 0)
       }
       this.imageCanvas.moveTo(this.yourNameObj, 2)
       this.imageCanvas.moveTo(this.yourCharObj, 3)
@@ -219,9 +227,6 @@ export default {
     this.imageCanvas.add(this.yourNameObj);
     this.yourCharObj = new fabric.Text('', { left: 50, top: 362, fontSize: 33, fontFamily: 'Sriracha, cursive', selectable: false });
     this.imageCanvas.add(this.yourCharObj)
-    this.refreshIndex()
-
-    document.addEventListener('click', this.deselectCanvas);
 
   }
 }
@@ -239,8 +244,13 @@ export default {
     <div id="canvasWrapper" class="tw-flex tw-flex-wrap tw-place-items-center tw-px-4">
       <canvas id="imgCanvas" class="tw-drop-shadow-xl tw-rounded-md" style="width: 100% !important;"></canvas>
       <!-- Sticker Pane -->
-      <div class="tw-flex tw-overflow-x-scroll tw-mt-12 tw-w-[100%]">
-          <img v-for="i,index in preStickers" :src="i" @click="addSticker(stickers[index])" style="width:100px;height: 100px;" alt="">
+      <div class="tw-flex tw-overflow-x-scroll tw-mt-6 tw-w-[100%]">
+          <img class="stickers" v-for="i,index in preStickers" :src="i" @click="addSticker(stickers[index])" alt="">
+      </div>
+      <!-- Editing Pane -->
+      <div id="editingPane" class="tw-w-[100%] tw-flex tw-justify-center">
+        <a class="btn btn-danger tw-mr-5 tw-shadow-md" @click="delSelected">Delete Selection</a>
+        <a id="pushBackBtnMobile" class="btn btn-light tw-shadow-md" @click="pushBackUserImage">Move Picture Back</a>
       </div>
     </div>
     <div class="tw-container tw-p-8 tw-pt-10">
@@ -257,10 +267,13 @@ export default {
           <label for="characterTextField">Your Character</label>
         </div>
 
-        <div>
+        <div >
           <label for="floatingInput" class="mb-2">Your Picture</label>
           <input type="file" class="form-control" accept="image/*, .heif, .heic" id="floatingInput"
             @input="previewFile" />
+          <div class="tw-w-[100%] tw-mt-4 tw-flex tw-justify-center">
+            <a id="pushBackBtnDesktop" class="btn btn-light tw-shadow-md" @click="pushBackUserImage">Move Picture Back</a>
+          </div>
         </div>
       </div>
 
@@ -298,16 +311,41 @@ export default {
 
 <style>
 @media only screen and (max-width: 1200px) {
+  /* Mobile */
+  img.stickers {
+    width:75px;height: 75px;
+  }
+  #pushBackBtnMobile {
+    display: block;
+  }
+  #pushBackBtnDesktop {
+    display: none;
+  }
+  #editingPane {
+    margin-top: 1.5rem;
+  }
   #appmodule {
     flex-direction: column !important;
   }
 }
 
 @media only screen and (min-width: 1200px) {
+  /* Desktop */
+  img.stickers {
+    width:100px;height: 100px;
+  }
+  #pushBackBtnMobile {
+    display: none;
+  }
+  #pushBackBtnDesktop {
+    display: block;
+  }
   #appmodule>div:nth-child(1) {
     width: 70%;
   }
-
+  #editingPane {
+    margin-top: 0;
+  }
   #appmodule>div:nth-child(2) {
     width: 30%;
   }
