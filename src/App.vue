@@ -66,6 +66,7 @@ export default {
       return (new URL(url, import.meta.url).href)
     },
     saveImage(e) {
+      this.deselectCanvas()
       const canvas = document.getElementById('imgCanvas')
       const link = document.createElement('a');
       canvas.toBlob(blob => {
