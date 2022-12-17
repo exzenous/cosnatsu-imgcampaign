@@ -23,6 +23,7 @@ export default {
     return {
       preStickers: preStickers,
       stickers: stickers,
+      stickerArray: [],
       imageCanvas: null,
       overlayImg: null,
       yourName: "",
@@ -110,7 +111,16 @@ export default {
     },
     addSticker(stickerToAdd) {
       fabric.Image.fromURL(stickerToAdd, (img) => {
-        this.imageCanvas.add(img)
+        this.stickerArray.push(img)
+
+        const filterd = this.stickerArray.filter((item) => {
+          if (item.cacheKey === img.cacheKey) {
+            return item
+          }
+        })
+
+        console.log(filterd)
+        this.imageCanvas.add(filterd[0])
         this.refreshIndex()
       }, {scaleX: 0.2, scaleY: 0.2})
       this.refreshIndex()
@@ -195,7 +205,7 @@ export default {
     },
     refreshIndex() {
       if (this.overlayImg != null) {
-        this.imageCanvas.moveTo(this.overlayImg, 0)
+        // this.imageCanvas.moveTo(this.overlayImg, 0)
       }
       this.imageCanvas.moveTo(this.yourNameObj, 2)
       this.imageCanvas.moveTo(this.yourCharObj, 3)
