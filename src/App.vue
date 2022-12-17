@@ -10,14 +10,14 @@ export default {
     const preImages = import.meta.glob("./assets/pre-stickers/*")
     const images = import.meta.glob("./assets/stickers/*")
     
-    var stickers = []
-    for (const path in images) {
-      stickers.push(this.getImageUrl(path))
-    }
-
     var preStickers = []
     for (const path in preImages) {
       preStickers.push(this.getImageUrl(path))
+    }
+    
+    var stickers = []
+    for (const path in images) {
+      stickers.push(this.getImageUrl(path))
     }
 
     return {
@@ -45,6 +45,9 @@ export default {
   },
   methods: {
 
+    deselectCanvas(){
+      this.imageCanvas.discardActiveObject().renderAll();
+    },
     getImageUrl(url) {
       return (new URL(url, import.meta.url).href)
     },
@@ -94,7 +97,7 @@ export default {
     },
     addTick(infoItem) {
       var circle = new fabric.Circle({
-        radius: 8, fill: 'green', left: infoItem.posX, top: infoItem.posY
+        radius: 8, fill: 'green', left: infoItem.posX, top: infoItem.posY, selectable: false
       });
       infoItem.tick = circle
       this.imageCanvas.add(circle)
@@ -109,7 +112,8 @@ export default {
       fabric.Image.fromURL(stickerToAdd, (img) => {
         this.imageCanvas.add(img)
         this.refreshIndex()
-      })
+      }, {scaleX: 0.2, scaleY: 0.2})
+      this.refreshIndex()
     },
     changeBaseImage(target) {
       this.cosnatsuCurrentImage = target
@@ -207,12 +211,13 @@ export default {
     this.imageCanvas.add(this.yourCharObj)
     this.refreshIndex()
 
+    document.addEventListener('click', this.deselectCanvas);
+
   }
 }
 </script>
 
 <template>
-
   <!-- Header -->
   <div class="tw- h-24 tw-p-4">
     <img class="" style="width: 80px;" src="icon.jpg" >
@@ -252,12 +257,12 @@ export default {
       <div class="d-flex justify-content-center flex-wrap">
         <div v-for="i in objectiveNames" class="p-1">
           <input type="checkbox" class="btn-check" :id="i.name" @click="setTick(i)" /><label
-            class="btn btn-outline-info" :for="i.name">{{ i.name }}</label>
+            class="btn btn-outline-success" :for="i.name">{{ i.name }}</label>
         </div>
       </div>
 
       <div class="row py-4">
-        <a class="btn btn-info" @click="saveImage">Save</a>
+        <a class="btn btn-success" @click="saveImage">Save</a>
       </div>
 
     </div>
@@ -278,7 +283,6 @@ export default {
     </div>
     <i><p><small>PDPA Concerns: <br> Your Image is entirely processed on your client, your data will NOT be stored anywhere else.</small></p></i>
   </div>
-
 
 </template>
 
