@@ -5,24 +5,44 @@ import xmasFrame from './assets/Xmas-Photoframe.png'
 // import tickImg from './assets/check.png'
 import heic2any from "heic2any";
 
+import ps1 from './assets/pre-stickers/chibi-icon-gift.png'
+import ps2 from './assets/pre-stickers/chibi-information.png'
+import ps3 from './assets/pre-stickers/chibi-sign.png'
+import ps4 from './assets/pre-stickers/chibi.png'
+import ps5 from './assets/pre-stickers/Fri.png'
+import ps6 from './assets/pre-stickers/Sat.png'
+import ps7 from './assets/pre-stickers/Sun.png'
+import ps8 from './assets/pre-stickers/z1.png'
+
+import s2 from './assets/stickers/chibi-information.png'
+import s1 from './assets/stickers/chibi-icon-gift.png'
+import s3 from './assets/stickers/chibi-sign.png'
+import s4 from './assets/stickers/chibi.png'
+import s5 from './assets/stickers/Fri.png'
+import s6 from './assets/stickers/Sat.png'
+import s7 from './assets/stickers/Sun.png'
+import s8 from './assets/stickers/z1.png'
+
 export default {
   data() {
-    const preImages = import.meta.glob("./assets/pre-stickers/*")
-    const images = import.meta.glob("./assets/stickers/*")
+    // const preImages = import.meta.glob("./assets/pre-stickers/*")
+    // const images = import.meta.glob("./assets/stickers/*")
     
-    var preStickers = []
-    for (const path in preImages) {
-      preStickers.push(this.getImageUrl(path))
-    }
+    // var preStickers = []
+    // for (const path in preImages) {
+    //   preStickers.push(this.getImageUrl(path))
+    // }
     
-    var stickers = []
-    for (const path in images) {
-      stickers.push(this.getImageUrl(path))
-    }
+    // var stickers = []
+    // for (const path in images) {
+    //   stickers.push(this.getImageUrl(path))
+    // }
 
     return {
-      preStickers: preStickers,
-      stickers: stickers,
+      // preStickers: preStickers,
+      // stickers: stickers,
+      preStickers: [ps5,ps6,ps7,ps1,ps2,ps3,ps4,ps8],
+      stickers: [s5,s6,s7,s1,s2,s3,s4,s8],
       stickerArray: [],
       imageCanvas: null,
       overlayImg: null,
@@ -47,7 +67,7 @@ export default {
   methods: {
 
     pushBackUserImage() {
-      this.delSelected()
+      this.deselectCanvas()
       this.refreshIndex()
     },
     delSelected() {
@@ -236,7 +256,7 @@ export default {
 <template>
   <!-- Header -->
   <div class="tw- h-24 tw-p-4">
-    <img class="" style="width: 80px;" src="icon.jpg" >
+    <img class="" style="width: 80px;" src="./assets/icon.jpg" >
   </div>
 
   <!-- App -->
