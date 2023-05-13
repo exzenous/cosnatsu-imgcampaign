@@ -1,27 +1,9 @@
 <script>
 
 import { fabric } from 'fabric'
-import xmasFrame from './assets/Xmas-Photoframe.png'
+import photoFrame from './assets/natsu_isan_photoframe.png'
 // import tickImg from './assets/check.png'
 import heic2any from "heic2any";
-
-import ps1 from './assets/pre-stickers/chibi-icon-gift.png'
-import ps2 from './assets/pre-stickers/chibi-information.png'
-import ps3 from './assets/pre-stickers/chibi-sign.png'
-import ps4 from './assets/pre-stickers/chibi.png'
-import ps5 from './assets/pre-stickers/Fri.png'
-import ps6 from './assets/pre-stickers/Sat.png'
-import ps7 from './assets/pre-stickers/Sun.png'
-import ps8 from './assets/pre-stickers/z1.png'
-
-import s2 from './assets/stickers/chibi-information.png'
-import s1 from './assets/stickers/chibi-icon-gift.png'
-import s3 from './assets/stickers/chibi-sign.png'
-import s4 from './assets/stickers/chibi.png'
-import s5 from './assets/stickers/Fri.png'
-import s6 from './assets/stickers/Sat.png'
-import s7 from './assets/stickers/Sun.png'
-import s8 from './assets/stickers/z1.png'
 
 export default {
   data() {
@@ -41,27 +23,18 @@ export default {
     return {
       // preStickers: preStickers,
       // stickers: stickers,
-      preStickers: [ps5,ps6,ps7,ps1,ps2,ps3,ps4,ps8],
-      stickers: [s5,s6,s7,s1,s2,s3,s4,s8],
-      stickerArray: [],
       imageCanvas: null,
       overlayImg: null,
       yourName: "",
       yourNameObj: null,
       yourChar: "",
       yourCharObj: null,
+      whereYouFrom: "",
+      whereYouFromMod: "",
+      willModifyWhereYouFrom: true,
+      whereYouFromObj: null,
       base: null,
-      cosnatsuCurrentImage: xmasFrame,
-      objectiveNames: [
-        { name: "มาคอส", isSet: false, posX: 58, posY: 448, tick: null },
-        { name: "มาถ่าย", isSet: false, posX: 138, posY: 448, tick: null },
-        { name: "มาขาย", isSet: false, posX: 222, posY: 448, tick: null },
-        { name: "มากิน", isSet: false, posX: 308, posY: 448, tick: null },
-        { name: "มาเล่น", isSet: false, posX: 58, posY: 476, tick: null },
-        { name: "มาเที่ยว", isSet: false, posX: 138, posY: 476, tick: null },
-        { name: "มาหาเธอ", isSet: false, posX: 222, posY: 476, tick: null },
-        { name: "มาทำไม?", isSet: false, posX: 308, posY: 476, tick: null }
-      ]
+      cosnatsuCurrentImage: photoFrame
     }
   },
   methods: {
@@ -109,7 +82,7 @@ export default {
         }
         this.yourNameObj.text = this.yourName
       }
-      else {
+      if (source.id == "characterTextField") {
         if (this.yourChar.length > 16) {
           this.yourCharObj.set({ fontSize: 24, top: 370 })
         } else {
@@ -117,6 +90,16 @@ export default {
         }
         this.yourCharObj.text = this.yourChar
       }
+
+      if (source.id == "whereYouFromTextField" ) {
+        if (this.whereYouFrom.length > 16) {
+          this.whereYouFromObj.set({ fontSize: 24, top: 438 })
+        } else {
+          this.whereYouFromObj.set({ fontSize: 33, top: 440 })
+        }
+        this.whereYouFromObj.text = this.willModifyWhereYouFrom ? this.whereYouFrom + "เด้อค้าาา..." : this.whereYouFrom
+      }
+
       this.refreshIndex()
       this.imageCanvas.renderAll()
     },
@@ -238,6 +221,7 @@ export default {
       }
       this.imageCanvas.moveTo(this.yourNameObj, 2)
       this.imageCanvas.moveTo(this.yourCharObj, 3)
+      this.imageCanvas.moveTo(this.whereYouFromObj, 4)
       this.imageCanvas.renderAll()
     }
   },
@@ -248,7 +232,13 @@ export default {
     this.imageCanvas.add(this.yourNameObj);
     this.yourCharObj = new fabric.Text('', { left: 50, top: 362, fontSize: 33, fontFamily: 'Sriracha, cursive', selectable: false });
     this.imageCanvas.add(this.yourCharObj)
-
+    this.whereYouFromObj = new fabric.Text('', { left: 50, top: 440, fontSize: 33, fontFamily: 'Sriracha, cursive', selectable: false });
+    this.imageCanvas.add(this.whereYouFromObj);
+    
+  },
+  updated() {
+    this.whereYouFromObj.text = this.willModifyWhereYouFrom && this.whereYouFrom != "" ? this.whereYouFrom + "เด้อค้าาา..." : this.whereYouFrom
+    this.refreshIndex()
   }
 }
 </script>
@@ -256,7 +246,7 @@ export default {
 <template>
   <!-- Header -->
   <div class="tw- h-24 tw-p-4">
-    <img class="" style="width: 80px;" src="./assets/icon.jpg" >
+    <img class="" style="width: 80px;" src="./assets/natsu_isan_icon.jpg" >
   </div>
 
   <!-- App -->
@@ -265,14 +255,14 @@ export default {
     <div id="canvasWrapper" class="tw-flex tw-flex-wrap tw-place-items-center tw-px-4">
       <canvas id="imgCanvas" class="tw-drop-shadow-xl tw-rounded-md" style="width: 100% !important;"></canvas>
       <!-- Sticker Pane -->
-      <div class="tw-flex tw-overflow-x-scroll tw-mt-6 tw-w-[100%]">
+      <!-- <div class="tw-flex tw-overflow-x-scroll tw-mt-6 tw-w-[100%]">
           <img class="stickers" v-for="i,index in preStickers" :src="i" @click="addSticker(stickers[index])" alt="">
-      </div>
+      </div> -->
       <!-- Editing Pane -->
-      <div id="editingPane" class="tw-w-[100%] tw-flex tw-justify-center">
+      <!-- <div id="editingPane" class="tw-w-[100%] tw-flex tw-justify-center">
         <a class="btn btn-danger tw-mr-5 tw-shadow-md" @click="delSelected">Delete Selection</a>
         <a id="pushBackBtnMobile" class="btn btn-light tw-shadow-md" @click="pushBackUserImage">Move Picture Back</a>
-      </div>
+      </div> -->
     </div>
     <div class="tw-container tw-p-8 tw-pt-10">
 
@@ -293,16 +283,25 @@ export default {
           <input type="file" class="form-control" accept="image/*, .heif, .heic" id="floatingInput"
             @input="previewFile" />
           <div class="tw-w-[100%] tw-mt-4 tw-flex tw-justify-center">
-            <a id="pushBackBtnDesktop" class="btn btn-light tw-shadow-md" @click="pushBackUserImage">Move Picture Back</a>
+            <!-- <a id="pushBackBtnDesktop" class="btn btn-light tw-shadow-md" @click="pushBackUserImage">Move Picture Back</a> -->
           </div>
         </div>
       </div>
 
-      <div class="d-flex justify-content-center flex-wrap">
-        <div v-for="i in objectiveNames" class="p-1">
-          <input type="checkbox" class="btn-check" :id="i.name" @click="setTick(i)" /><label
-            class="btn btn-outline-success" :for="i.name">{{ i.name }}</label>
+      <div class="tw-flex tw-gap-2">
+
+        <div class="form-floating tw-w-[100%]">
+          <input type="text" id="whereYouFromTextField" class="form-control" placeholder=" " v-model="whereYouFrom" @input="textChange" />
+          <label for="whereYouFromTextField" >Where you from?</label>
         </div>
+
+        <div>
+          <input @click="textChange" type="checkbox" id="enableRegionalWord" v-model="willModifyWhereYouFrom" class="tw-hidden tw-peer" />
+          <label for="enableRegionalWord" class="p-2 tw-border-2 tw-h-full tw-border-gray-200 tw-rounded-lg tw-shadow-md tw-cursor-pointer peer-checked:tw-border-blue-600 tw-transition" >
+            <div class="block tw-text-3xl">🗺️</div>
+          </label>
+        </div>
+
       </div>
 
       <div class="row py-4">
