@@ -304,12 +304,6 @@ export default {
   img.stickers {
     width:75px;height: 75px;
   }
-  #pushBackBtnMobile {
-    display: block;
-  }
-  #pushBackBtnDesktop {
-    display: none;
-  }
   #editingPane {
     margin-top: 1.5rem;
   }
@@ -322,12 +316,6 @@ export default {
   /* Desktop */
   img.stickers {
     width:100px;height: 100px;
-  }
-  #pushBackBtnMobile {
-    display: none;
-  }
-  #pushBackBtnDesktop {
-    display: block;
   }
   #appmodule>div:nth-child(1) {
     width: 70%;
