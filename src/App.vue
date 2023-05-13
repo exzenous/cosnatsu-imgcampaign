@@ -2,27 +2,11 @@
 
 import { fabric } from 'fabric'
 import photoFrame from './assets/natsu_isan_photoframe.png'
-// import tickImg from './assets/check.png'
 import heic2any from "heic2any";
 
 export default {
   data() {
-    // const preImages = import.meta.glob("./assets/pre-stickers/*")
-    // const images = import.meta.glob("./assets/stickers/*")
-    
-    // var preStickers = []
-    // for (const path in preImages) {
-    //   preStickers.push(this.getImageUrl(path))
-    // }
-    
-    // var stickers = []
-    // for (const path in images) {
-    //   stickers.push(this.getImageUrl(path))
-    // }
-
     return {
-      // preStickers: preStickers,
-      // stickers: stickers,
       imageCanvas: null,
       overlayImg: null,
       yourName: "",
@@ -93,11 +77,11 @@ export default {
 
       if (source.id == "whereYouFromTextField" ) {
         if (this.whereYouFrom.length > 16) {
-          this.whereYouFromObj.set({ fontSize: 24, top: 438 })
+          this.whereYouFromObj.set({ fontSize: 24, top: 436 })
         } else {
-          this.whereYouFromObj.set({ fontSize: 33, top: 440 })
+          this.whereYouFromObj.set({ fontSize: 33, top: 436 })
         }
-        this.whereYouFromObj.text = this.willModifyWhereYouFrom ? this.whereYouFrom + "เด้อค้าาา..." : this.whereYouFrom
+        this.whereYouFromObj.text = this.willModifyWhereYouFrom ? this.whereYouFrom + " เด้ออ้าย~.." : this.whereYouFrom
       }
 
       this.refreshIndex()
@@ -119,12 +103,6 @@ export default {
       });
       infoItem.tick = circle
       this.imageCanvas.add(circle)
-
-      // fabric.Image.fromURL(tickImg, (tick) => {
-      //   infoItem.tick = tick
-      // }, {
-      //   radius: 8, fill: 'green', left: infoItem.posX, top: infoItem.posY, selectable: false, scaleX: 0.1, scaleY: 0.1
-      // })
     },
     addSticker(stickerToAdd) {
       fabric.Image.fromURL(stickerToAdd, (img) => {
@@ -237,7 +215,7 @@ export default {
     
   },
   updated() {
-    this.whereYouFromObj.text = this.willModifyWhereYouFrom && this.whereYouFrom != "" ? this.whereYouFrom + "เด้อค้าาา..." : this.whereYouFrom
+    this.whereYouFromObj.text = this.willModifyWhereYouFrom && this.whereYouFrom != "" ? this.whereYouFrom + " เด้ออ้าย~.." : this.whereYouFrom
     this.refreshIndex()
   }
 }
@@ -254,15 +232,6 @@ export default {
 
     <div id="canvasWrapper" class="tw-flex tw-flex-wrap tw-place-items-center tw-px-4">
       <canvas id="imgCanvas" class="tw-drop-shadow-xl tw-rounded-md" style="width: 100% !important;"></canvas>
-      <!-- Sticker Pane -->
-      <!-- <div class="tw-flex tw-overflow-x-scroll tw-mt-6 tw-w-[100%]">
-          <img class="stickers" v-for="i,index in preStickers" :src="i" @click="addSticker(stickers[index])" alt="">
-      </div> -->
-      <!-- Editing Pane -->
-      <!-- <div id="editingPane" class="tw-w-[100%] tw-flex tw-justify-center">
-        <a class="btn btn-danger tw-mr-5 tw-shadow-md" @click="delSelected">Delete Selection</a>
-        <a id="pushBackBtnMobile" class="btn btn-light tw-shadow-md" @click="pushBackUserImage">Move Picture Back</a>
-      </div> -->
     </div>
     <div class="tw-container tw-p-8 tw-pt-10">
 
@@ -283,7 +252,7 @@ export default {
           <input type="file" class="form-control" accept="image/*, .heif, .heic" id="floatingInput"
             @input="previewFile" />
           <div class="tw-w-[100%] tw-mt-4 tw-flex tw-justify-center">
-            <!-- <a id="pushBackBtnDesktop" class="btn btn-light tw-shadow-md" @click="pushBackUserImage">Move Picture Back</a> -->
+            <a id="pushBackBtnDesktop" class="btn btn-light tw-shadow-md" @click="pushBackUserImage">Move Picture Back</a>
           </div>
         </div>
       </div>
@@ -317,14 +286,14 @@ export default {
   <div class="tw-p-4 tw-m-2 tw-bg-slate-50 tw-rounded-lg row">
 
     <div class="col">
-      <p>Image/Artwork Resources <br> Courtesy of Cosnatsu Event. or its affiliates.</p>
+      <p>Image/Artwork Resources <br> &#169; Cosnatsu Event. or its affiliates.</p>
     </div>
 
-    <div class="col text-end">
+    <!-- <div class="col text-end">
       <p>Open Sourced - Nathachai B.</p>
       <h2><a href="https://github.com/exzenous/cosnatsu-imgcampaign"><i class="fa fa-github"></i></a></h2>
-    </div>
-    <i><p><small>PDPA Concerns: <br> Your Image is entirely processed on your client, your data will NOT be stored anywhere else.</small></p></i>
+    </div> -->
+    <!-- <i><p><small>PDPA Concerns: <br> Your Image is entirely processed on your client, your data will NOT be stored anywhere else.</small></p></i> -->
   </div>
 
 </template>
